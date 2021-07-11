@@ -1,11 +1,11 @@
 const path = require('path');
-const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+// const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 
 module.exports = (env, argv) =>  {
   console.log(env, argv)
   return {
     // JavaScript 执行入口文件
-    entry: './src/index.js',
+    entry: './src/index.jsx',
     output: {
       // 把所有依赖的模块合并输出到一个 bundle.js 文件
       filename: '[name].js',
@@ -14,8 +14,7 @@ module.exports = (env, argv) =>  {
     },
     resolve: {
       extensions: ['jsx','.js',],
-      modules: [path.resolve(__dirname, 'node_modules')],
-      mainFields: ['jsnext:main', 'main'],
+      modules: [path.resolve(__dirname, 'node_modules')]
     },
 
     module: {
@@ -23,7 +22,6 @@ module.exports = (env, argv) =>  {
         {
             test: /\.jsx?$/,
             exclude: /node_modules/, 
-            
             use: ['babel-loader'],
         },
         {
@@ -42,11 +40,11 @@ module.exports = (env, argv) =>  {
     watchOptions: {
       // 4-5使用自动刷新：不监听的 node_modules 目录下的文件
       ignored: /node_modules/,
-      }
+      },
     // 输出 source-map 方便直接调试 ES6 源码
     // devtool: 'source-map'
     // 一定要设置mode， 否则bundle文件可能为空
-    mode:  'production'// 'development', 
+    mode:  env, //'production'// 'development', 
   }
 
 };
