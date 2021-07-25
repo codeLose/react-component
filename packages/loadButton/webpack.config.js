@@ -1,11 +1,21 @@
 const path = require('path');
 // const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = (env, argv) =>  {
+  plugins = []
+
+  if (env.analzy) {
+    plugins.push(new BundleAnalyzerPlugin())
+  }
+
   console.log(env, argv)
   return {
     // JavaScript 执行入口文件
-    entry: './src/index.jsx',
+    entry: {
+      index: './src/index.jsx',
+      sec: './src/sec.js',
+    },
     output: {
       // 把所有依赖的模块合并输出到一个 bundle.js 文件
       filename: '[name].js',
@@ -16,7 +26,10 @@ module.exports = (env, argv) =>  {
       extensions: ['jsx','.js',],
       modules: [path.resolve(__dirname, 'node_modules')]
     },
-
+    devServer:{
+      // 告诉 DevServer 要开启模块热替换模式
+      hot: true,      
+    } ,
     module: {
       rules: [
         {
@@ -44,7 +57,10 @@ module.exports = (env, argv) =>  {
     // 输出 source-map 方便直接调试 ES6 源码
     // devtool: 'source-map'
     // 一定要设置mode， 否则bundle文件可能为空
-    mode:  env, //'production'// 'development', 
+    mode: argv.mode, //'production'// 'development', 
+    plugins: [ 
+      ...plugins,
+    ], 
   }
 
 };
