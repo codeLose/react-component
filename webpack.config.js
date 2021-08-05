@@ -21,9 +21,9 @@ module.exports = (env, argv) =>  {
       filename: '[name].js',
       // 输出文件都放到 dist 目录下
       path: path.resolve(__dirname, './dist'),
-      libraryTarget: 'umd', // 采用通用模块定义, 注意webpack到4.0为止依然不提供输出es module的方法，所以输出的结果必须使用npm安装到node_modules里再用，不然会报错
-      library: 'react-component-boilerplate', // 库名称
-      libraryExport: 'default', 
+      // libraryTarget: 'umd', // 采用通用模块定义, 注意webpack到4.0为止依然不提供输出es module的方法，所以输出的结果必须使用npm安装到node_modules里再用，不然会报错
+      // library: 'react-component-boilerplate', // 库名称
+      // libraryExport: 'default', 
     },
     resolve: {
       extensions: ['.jsx','.js',],
@@ -45,7 +45,6 @@ module.exports = (env, argv) =>  {
           // exclude: /node_modules/, 
           use: [
             MiniCssExtractPlugin.loader,
-            'style-loader',
             {
               loader: 'css-loader',
               options: {
@@ -77,7 +76,6 @@ module.exports = (env, argv) =>  {
           // exclude: /node_modules/, 
           use: [
             MiniCssExtractPlugin.loader,
-            'style-loader',
             {
               loader: 'css-loader',
               options: {
